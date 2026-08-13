@@ -792,9 +792,16 @@ fn isolate_groups() {
   assert_eq!(default_group, v8::IsolateGroup::default());
   assert_eq!(default_group, default_group.clone());
 
+  // An isolate created without naming a group lands in the default one.
+  {
+    let isolate = v8::Isolate::new(Default::default());
+    assert_eq!(isolate.get_group(), default_group);
+  }
+
   {
     let isolate =
       &mut v8::Isolate::new_with_group(&default_group, Default::default());
+    assert_eq!(isolate.get_group(), default_group);
     v8::scope!(let scope, isolate);
     let context = v8::Context::new(scope, Default::default());
     let scope = &mut v8::ContextScope::new(scope, context);
@@ -827,6 +834,10 @@ fn isolate_groups() {
       for _ in 0..2 {
         let isolate =
           &mut v8::Isolate::new_with_group(&group, Default::default());
+        // Both iterations ask for the same group and get it, so this is what
+        // establishes that `new_with_group` honours its argument rather than
+        // quietly falling back to the default group.
+        assert_eq!(isolate.get_group(), group);
         v8::scope!(let scope, isolate);
         let context = v8::Context::new(scope, Default::default());
         let scope = &mut v8::ContextScope::new(scope, context);
