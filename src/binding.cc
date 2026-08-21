@@ -13,7 +13,9 @@
 #include "cppgc/platform.h"
 #include "libplatform/libplatform.h"
 #include "support.h"
+#if defined(V8_INTL_SUPPORT)
 #include "unicode/locid.h"
+#endif
 #include "v8-callbacks.h"
 #include "v8-cppgc.h"
 #include "v8-fast-api-calls.h"
@@ -4275,6 +4277,7 @@ void v8__CompiledWasmModule__DELETE(v8::CompiledWasmModule* self) {
 
 // icu
 
+#if defined(V8_INTL_SUPPORT)
 extern "C" {
 
 size_t icu_get_default_locale(char* output, size_t output_len) {
@@ -4293,6 +4296,7 @@ void icu_set_default_locale(const char* locale) {
 }
 
 }  // extern "C"
+#endif // defined(V8_INTL_SUPPORT)
 
 // v8::PropertyDescriptor
 
