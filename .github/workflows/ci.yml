@@ -435,6 +435,7 @@ jobs:
       - name: Upload CI artifacts
         uses: actions/upload-artifact@v4
         with:
+          retention-days: 1
           name: src_binding${{ env.FEATURES_SUFFIX }}_${{ matrix.config.variant }}_${{ matrix.config.target }}.rs
           path: target/src_binding${{ env.FEATURES_SUFFIX }}_${{ matrix.config.variant }}_${{ matrix.config.target }}.rs
 
@@ -620,6 +621,7 @@ jobs:
       - name: Upload CI artifacts
         uses: actions/upload-artifact@v4
         with:
+          retention-days: 1
           name: src_binding_release_aarch64-pc-windows-msvc.rs
           path: target/src_binding_release_aarch64-pc-windows-msvc.rs
 
